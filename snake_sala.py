@@ -194,35 +194,6 @@ class Game(): #Representamos el estado del juego
             
         self.snakes[color] = p
         self.lock.release()
-    """
-    def moveUp(self, color):
-        self.lock.acquire()
-        p = self.snakes[color]
-        p.moveUp()
-        self.snakes[color] = p
-        self.lock.release()
-
-    def moveDown(self, color):
-        self.lock.acquire()
-        p = self.snakes[color]
-        p.moveDown()
-        self.snakes[color] = p
-        self.lock.release()
-
-    def moveRight(self, color):
-        self.lock.acquire()
-        p = self.snakes[color]
-        p.moveRight()
-        self.snakes[color] = p
-        self.lock.release()
-        
-    def moveLeft(self, color):
-         self.lock.acquire()
-         p = self.snakes[color]
-         p.moveLeft()
-         self.snakes[color] = p
-         self.lock.release()
-     """
          
     def get_info(self):
         info = {
@@ -247,7 +218,7 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
          game.set_game_over(3)
      
     # 2. Alguno alcanza la puntuación máxima
-    elif game.score[0] == 50:
+    elif game.score[0] == 10:
         game.set_game_over(1) #Ha ganado black_snake
           
     elif game.score[1] == 50:
@@ -279,6 +250,7 @@ def snake(color, conn, game):
     try: 
         print(f"starting player {SNAKES_COLORS[color]}:{game.get_info()}")
         conn.send( (color, game.get_info()) )
+        
         while game.is_running():
             
             command = ""
@@ -324,7 +296,7 @@ def snake(color, conn, game):
 def main(ip_address):
     manager = Manager()
     try:
-        with Listener((ip_address, 6000),
+        with Listener((ip_address, 6112),
                       authkey=b'secret password') as listener:
             n_snake = 0
             snakes = [None, None]
