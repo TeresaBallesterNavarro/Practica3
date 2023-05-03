@@ -32,6 +32,7 @@ from multiprocessing import Value
 
 
 
+snake_speed = 15
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -44,7 +45,7 @@ BLACK_SNAKE = 0
 BLUE_SNAKE = 1
 SNAKE_WIDTH = 50
 SNAKE_HEIGHT = 50
-SNAKES_COLORS = ['black', 'blue']
+SNAKES_COLORS = [BLACK, BLUE]
 
 APPLE_COLOR = RED
 APPLE_SIZE = 50
@@ -144,8 +145,6 @@ class Game(): #Representamos el estado del juego
     
         self.set_pos_snake(0, gameinfo['pos_black_snake']) #he cambiado BLACK_SNAKE Y BLUE_SNAKE por 0 y 1 porque los jugadores estan guardados en una lista
         self.set_pos_snake(1, gameinfo['pos_blue_snake'])
-        self.set_snake_direction(0, gameinfo['black_snake_direction'])
-        self.set_snake_direction(1, gameinfo['blue_snake_direction'])
         self.set_pos_apple(gameinfo['pos_apple'])
         self.set_score(gameinfo['score'])
         self.game_over = gameinfo['game_over']
@@ -380,7 +379,7 @@ def main(ip_address):
                     game.stop()
 
                 display.tick()
-
+                pygame.display.update()
                 #Para ver si me sale bien la snake dibujada (como un cuadrado)
                 #snake = SnakeSprite()
                 #snake.draw()

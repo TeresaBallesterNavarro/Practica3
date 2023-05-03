@@ -16,7 +16,7 @@ BLACK_SNAKE = 0
 BLUE_SNAKE = 1
 SNAKE_WIDTH = 10
 SNAKE_HEIGHT = 10
-SNAKES_COLORS = ['black', 'blue']
+SNAKES_COLORS = [BLACK, BLUE]
 
 APPLE_COLOR = RED
 APPLE_SIZE = 10
@@ -29,20 +29,21 @@ class Snake():
 
     def __init__(self, color): #El color diferencia al jugador 1 del 2
         self.color = color
-        x1 = random.randint(1, SIZE[X] - 1)  #coordenada random de la snake BLACK en eje X
-        y1 = random.randint(1, SIZE[Y] - 1)  #coordenada random de la snake BLACK en eje Y
-        x2 = random.randint(1, SIZE[X] - 1)  #coordenada random de la snake BLUE en eje X
-        y2 = random.randint(1, SIZE[Y] - 1)  #coordenada random de la snake BLUE en eje Y
+        #x1 = random.randint(1, SIZE[X] - 1)  #coordenada random de la snake BLACK en eje X
+        #y1 = random.randint(1, SIZE[Y] - 1)  #coordenada random de la snake BLACK en eje Y
+        #x2 = random.randint(1, SIZE[X] - 1)  #coordenada random de la snake BLUE en eje X
+        #y2 = random.randint(1, SIZE[Y] - 1)  #coordenada random de la snake BLUE en eje Y
         
-        while (x1, y1) == (x2, y2): # mientras se da el caso de que ambas serpiente aparecen en la misma posición 
-            x2, y2 = random.randint(1, SIZE[X]-1), random.randint(1, SIZE[Y]-1) #actualizamos posición
+        #while (x1, y1) == (x2, y2): # mientras se da el caso de que ambas serpiente aparecen en la misma posición 
+         #   x2, y2 = random.randint(1, SIZE[X]-1), random.randint(1, SIZE[Y]-1) #actualizamos posición
+        
 
         if self.color == BLACK_SNAKE :
-            self.head = [x1,y1]
+            self.head = [100,300]
             self.direction = "right"   #Defino una dirección inicial para black_snake
                 
         else : #BLUE_SNAKE = 1
-            self.head = [x2,y2]
+            self.head = [SIZE[X] -100, SIZE[Y] - 300]
             self.direction = "left"    #Defino una dirección inicial para blue_snake
         
         #self.change = self.direction
@@ -61,38 +62,38 @@ class Snake():
     
     def set_direction(self, direction): 
         self.direction = direction
-    """   
+       
     def change_direction(self, direction): #Cambio de dirección
        self.change = direction
        #No podemos cambiar dirección de arriba a abajo, primero hay que moverse hacia uno de los lados
-       if self.change == 'up' and self.direction != 'down':
-           self.direction = 'up' 
-       elif self.change == 'down' and self.direction != 'up':
-           self.direction = 'down'
+       if self.change == "up" and self.direction != "down":
+           self.direction = "up" 
+       elif self.change == "down" and self.direction != "up":
+           self.direction = "down"
        #Igual que antes, no podemos cambiar el sentido directamente dentro de la misma dirección
-       elif self.change == 'left' and self.direction != 'right':
-           self.direction = 'left' 
-       if self.change == 'right' and self.direction != 'left':
-           self.direction = 'right'
+       if self.change == "left" and self.direction != "right":
+           self.direction = "left" 
+       elif self.change == "right" and self.direction != "left":
+           self.direction = "right"
     
     
-    No hace falta indicar el if porque cuando usamos estas funciones, cada una
-    se usa en su caso correspondiente (en el proceso snake)
-    """
+    #No hace falta indicar el if porque cuando usamos estas funciones, cada una
+    #se usa en su caso correspondiente (en el proceso snake)
+    
     def moveUp(self):
-        if self.direction == 'up':
-        	self.head[Y] += 50
+       # if self.direction == "up":
+        	self.head[Y] -= 50
 
     def moveDown(self):
-        if self.direction == 'down':
-        	self.head[Y] -= 50
+       # if self.direction == "down":
+        	self.head[Y] += 50
     
     def moveRight(self):
-        if self.direction == 'right':
+       # if self.direction == "right":
         	self.head[X] += 50
     
     def moveLeft(self):
-        if self.direction == 'left':
+       # if self.direction == "left":
         	self.head[X] -= 50
      
     def __str__(self):
@@ -103,13 +104,13 @@ class Apple(): #Representa la manzana en el juego
 
     def __init__(self): #La manzana tiene color y posición
         self.pos = [None, None]
-        x3 = random.randint(1, SIZE[X] - 1) 
-        y3 = random.randint(1, SIZE[Y] - 1)
+        x3 = random.randint(1, 10)*50 
+        y3 = random.randint(1, 10)*50
         self.pos = [x3, y3]
         snake1 = Snake(BLACK_SNAKE)
         snake2 = Snake(BLUE_SNAKE)
         while snake1.get_pos_head() == self.pos or snake2.get_pos_head() == self.pos : #mientras se de el caso en que la manzana aparezca en la misma posición que una de las 2 snakes
-              x3, y3 = random.randint(1, SIZE[X] - 1), random.randint(1, SIZE[Y] - 1) #actualizamos pos de la manzana
+              x3, y3 = random.randint(1, 16)*50, random.randint(1, 13)*50 #actualizamos pos de la manzana
     
     def get_pos(self):
         return self.pos
@@ -169,26 +170,26 @@ class Game(): #Representamos el estado del juego
     def stop(self):
         self.running.value = 0
 
-    """
+    
     def change_dir(self, color, key): #Snake cambia de dirección
         self.lock.acquire()
         p = self.snakes[color]
         p.change_direction(key)
         self.snakes[color] = p
         self.lock.release()
-    """ 
+     
     
     def move(self, color, key):
         self.lock.acquire()
         p = self.snakes[color]
         
-        if key == 'up':
+        if key == "up":
            p.moveUp()
-        elif key == 'down':
+        if key == "down":
            p.moveDown()
-        elif key == 'left':
+        if key == "left":
            p.moveLeft()
-        else:
+        if key == "right":
            p.moveRight()
             
         self.snakes[color] = p
@@ -228,8 +229,6 @@ class Game(): #Representamos el estado del juego
             'pos_black_snake': self.snakes[0].get_pos_head(),
             'pos_blue_snake': self.snakes[1].get_pos_head(),
             'pos_apple': self.apple[0].get_pos(),
-            'black_snake_direction' : self.snakes[0].get_direction(),
-            'blue_snake_direction' : self.snakes[1].get_direction(),
             'score': list(self.score),
             'game_over': self.game_over.value,
             'is_running': self.running.value == 1
@@ -286,20 +285,20 @@ def snake(color, conn, game):
             
             while command != "next":
                 command = conn.recv()
-                if command == "up" and direction != "down":
-                    game.set_snake_direction(color, command)
+                if command == "up" :
+                    game.change_dir(color,"up")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"up")
-                elif command == "down" and direction != "up":
-                    game.set_snake_direction(color, command)
+                elif command == "down" :
+                    game.change_dir(color,"down")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"down")
-                elif command == "right" and direction != "left":
-                    game.set_snake_direction(color, command)
+                elif command == "right":
+                    game.change_dir(color,"right")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"right")
-                elif command == "left" and direction != "right":
-                    game.set_snake_direction(color, command)
+                elif command == "left":
+                    game.change_dir(color, "left")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"left")
                 elif command == "quit":
@@ -308,6 +307,7 @@ def snake(color, conn, game):
                 # Aquí vemos cuando la serpiente se come la manzana
                 if game.get_pos_snake(color) == game.get_apple_pos(): 
                     game.set_score(color) # Se suman los puntos
+                    print(game.score)
                     game.apple[0] = Apple() # Se crea una nueva manzana aleatoria
                     
                 pararPartida(game) 
