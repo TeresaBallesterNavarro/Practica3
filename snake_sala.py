@@ -127,7 +127,7 @@ class Game(): #Representamos el estado del juego
         self.snakes = manager.list([Snake(i) for i in range(2)])
         self.apple = manager.list([ Apple() ]) 
         self.score = manager.list( [0,0] )
-        self.game_over = Value('i', 0) # Estado de game over inicial. 0 = No hay game over. 1 = Gana snake BLACK. 2 = Gana snake BLUE. 3 = Posible empate.
+        self.game_over = Value('i', 0) # Estado de game over inicial. 0 = No hay game over. 1 = Gana snake BLACK. 2 = Gana snake BLUE.
         self.running = Value('i', 1) # 1 = running
         self.lock = Lock()
 
@@ -215,11 +215,11 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
     pos_BlackSnake = game.get_pos_snake(BLACK_SNAKE)
     pos_BlueSnake = game.get_pos_snake(BLUE_SNAKE)
     # 1. Ambos jugadores se chocan = colisión
-    if pos_BlackSnake == pos_BlueSnake:
-         game.set_game_over(3)
+   # if pos_BlackSnake == pos_BlueSnake:
+    #     game.set_game_over(3)
      
     # 2. Alguno alcanza la puntuación máxima
-    elif game.score[0] == 50:
+    if game.score[0] == 50:
         game.set_game_over(1) #Ha ganado black_snake
           
     elif game.score[1] == 50:
