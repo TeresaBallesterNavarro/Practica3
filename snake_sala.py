@@ -29,14 +29,6 @@ class Snake():
 
     def __init__(self, color): #El color diferencia al jugador 1 del 2
         self.color = color
-        #x1 = random.randint(1, SIZE[X] - 1)  #coordenada random de la snake BLACK en eje X
-        #y1 = random.randint(1, SIZE[Y] - 1)  #coordenada random de la snake BLACK en eje Y
-        #x2 = random.randint(1, SIZE[X] - 1)  #coordenada random de la snake BLUE en eje X
-        #y2 = random.randint(1, SIZE[Y] - 1)  #coordenada random de la snake BLUE en eje Y
-        
-        #while (x1, y1) == (x2, y2): # mientras se da el caso de que ambas serpiente aparecen en la misma posición 
-         #   x2, y2 = random.randint(1, SIZE[X]-1), random.randint(1, SIZE[Y]-1) #actualizamos posición
-        
 
         if self.color == BLACK_SNAKE :
             self.head = [100,300]
@@ -64,36 +56,28 @@ class Snake():
         self.direction = direction
        
     def change_direction(self, direction): #Cambio de dirección
-       self.change = direction
-       #No podemos cambiar dirección de arriba a abajo, primero hay que moverse hacia uno de los lados
-       if self.change == "up" and self.direction != "down":
-           self.direction = "up" 
-       elif self.change == "down" and self.direction != "up":
-           self.direction = "down"
+        self.change = self.get_direction()
+        #No podemos cambiar dirección de arriba a abajo, primero hay que moverse hacia uno de los lados
+        if self.change == "up" and self.direction != "down":
+            self.direction = "up" 
+        elif self.change == "down" and self.direction != "up":
+            self.direction = "down"
        #Igual que antes, no podemos cambiar el sentido directamente dentro de la misma dirección
-       if self.change == "left" and self.direction != "right":
-           self.direction = "left" 
-       elif self.change == "right" and self.direction != "left":
-           self.direction = "right"
-    
-    
-    #No hace falta indicar el if porque cuando usamos estas funciones, cada una
-    #se usa en su caso correspondiente (en el proceso snake)
+        if self.change == "left" and self.direction != "right":
+            self.direction = "left" 
+        elif self.change == "right" and self.direction != "left":
+            self.direction = "right"
     
     def moveUp(self):
-       # if self.direction == "up":
         	self.head[Y] -= 50
 
     def moveDown(self):
-       # if self.direction == "down":
         	self.head[Y] += 50
     
     def moveRight(self):
-       # if self.direction == "right":
         	self.head[X] += 50
     
     def moveLeft(self):
-       # if self.direction == "left":
            self.head[X] -= 50
      
     def __str__(self):

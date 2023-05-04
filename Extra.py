@@ -31,3 +31,15 @@ refresh() ya representamos los puntos de las serpientes por pantalla:
         gameOver_rect2.midtop = (pantalla[X]//2, pantalla[Y]//3)
         pantalla.blit(gameOver_surface2, gameOver_rect2)
 """ 
+
+"""
+
+        if self.game.get_snake_color() == BLACK_SNAKE:
+            text = letra.render('Eres BLACK SNAKE', True, BLACK) #Dibuja los puntos de black snake en la pantalla
+            score_rect = text.get_rect()
+            score_rect.midtop = (90, 20)
+        elif self.game.get_snake_color() == BLUE_SNAKE:
+            text_ = letra.render('Eres BLUE SNAKE', True, BLUE) #Dibuja los puntos de black snake en la pantalla
+            score_rect_ = text_.get_rect()
+            score_rect_.midtop = (SIZE[Y]-80, 20)
+"""
