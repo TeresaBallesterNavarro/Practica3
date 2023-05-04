@@ -46,7 +46,7 @@ class Snake():
             self.head = [SIZE[X] -100, SIZE[Y] - 300]
             self.direction = "left"    #Defino una dirección inicial para blue_snake
         
-        #self.change = self.direction
+        self.change = self.direction
             
     def get_color(self):
         return self.color
@@ -94,7 +94,7 @@ class Snake():
     
     def moveLeft(self):
        # if self.direction == "left":
-        	self.head[X] -= 50
+           self.head[X] -= 50
      
     def __str__(self):
         return f"S<{SNAKES_COLORS[self.color], self.head}>"
@@ -194,35 +194,7 @@ class Game(): #Representamos el estado del juego
             
         self.snakes[color] = p
         self.lock.release()
-    """
-    def moveUp(self, color):
-        self.lock.acquire()
-        p = self.snakes[color]
-        p.moveUp()
-        self.snakes[color] = p
-        self.lock.release()
-
-    def moveDown(self, color):
-        self.lock.acquire()
-        p = self.snakes[color]
-        p.moveDown()
-        self.snakes[color] = p
-        self.lock.release()
-
-    def moveRight(self, color):
-        self.lock.acquire()
-        p = self.snakes[color]
-        p.moveRight()
-        self.snakes[color] = p
-        self.lock.release()
         
-    def moveLeft(self, color):
-         self.lock.acquire()
-         p = self.snakes[color]
-         p.moveLeft()
-         self.snakes[color] = p
-         self.lock.release()
-     """
          
     def get_info(self):
         info = {

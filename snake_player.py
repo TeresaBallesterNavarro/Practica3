@@ -32,9 +32,6 @@ import time
 from multiprocessing import Value
 
 
-
-snake_speed = 15
-
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
