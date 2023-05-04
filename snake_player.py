@@ -26,6 +26,7 @@ JUEGO SNAKE: Hay 2 serpientes que luchan por comer una manzana, aquella serpient
 from multiprocessing.connection import Client
 import traceback
 import pygame
+from pygame.locals import *
 import sys
 import time
 from multiprocessing import Value
@@ -46,6 +47,7 @@ BLUE_SNAKE = 1
 SNAKE_WIDTH = 50
 SNAKE_HEIGHT = 50
 SNAKES_COLORS = [BLACK, BLUE]
+SNAKES_IMAGES = ['snake_black.png','snake_blue.png']
 
 APPLE_COLOR = RED
 APPLE_SIZE = 50
@@ -162,15 +164,20 @@ class Game(): #Representamos el estado del juego
 class SnakeSprite(pygame.sprite.Sprite): #Representa las snakes por pantalla
 
     def __init__(self, snake):
-        super().__init__()
-        self.image = pygame.Surface([SNAKE_WIDTH, SNAKE_HEIGHT])
-        self.image.fill(BLACK)
-        self.image.set_colorkey(BLACK) #drawing the snake
-        self.snake = snake
-        color = SNAKES_COLORS[self.snake.get_color()]
-        pygame.draw.rect(self.image, color, [0, 0, SNAKE_WIDTH, SNAKE_HEIGHT]) #Dibuja sanke con su color y su tamanyo predefinidos
-        self.rect = self.image.get_rect()
-        self.update()
+      super().__init__()
+      self.snake = snake
+      if self.snake.get_color() == BLACK_SNAKE :
+    	  self.image = pygame.image.load(SNAKES_IMAGES[0])
+      elif self.snake.get_color() == BLUE_SNAKE :
+          self.image = pygame.image.load(SNAKES_IMAGES[1])
+      #self.image = pygame.Surface([SNAKE_WIDTH, SNAKE_HEIGHT])
+      #self.image.fill(BLACK)
+      #self.image.set_colorkey(BLACK) #drawing the snake
+
+      #color = SNAKES_COLORS[self.snake.get_color()]
+     # pygame.draw.rect(self.image, color, [0, 0, SNAKE_WIDTH, SNAKE_HEIGHT]) #Dibuja sanke con su color y su tamanyo predefinidos
+      self.rect = self.image.get_rect()
+      self.update()
 
     def update(self):
         pos = self.snake.get_pos_head()
@@ -184,10 +191,11 @@ class AppleSprite(pygame.sprite.Sprite): #Representa la manzana por pantalla
     def __init__(self, apple):
         super().__init__()
         self.apple= apple
-        self.image = pygame.Surface((APPLE_SIZE, APPLE_SIZE))
-        self.image.fill(BLACK)
-        self.image.set_colorkey(BLACK)
-        pygame.draw.rect(self.image, APPLE_COLOR, [0, 0, APPLE_SIZE, APPLE_SIZE]) #Dibuja la manzana con su posición y color predefinido
+        #self.image = pygame.Surface((APPLE_SIZE, APPLE_SIZE))
+        self.image = pygame.image.load('apple.png')
+        #self.image.fill(BLACK)
+        self.image.set_colorkey(WHITE, RLEACCEL)
+        #pygame.draw.rect(self.image, APPLE_COLOR, [0, 0, APPLE_SIZE, APPLE_SIZE]) #Dibuja la manzana con su posición y color predefinido
         self.rect = self.image.get_rect()
         self.update()
 
@@ -244,7 +252,7 @@ class Display(): #Representa el juego por pantalla
 
         return events
 
-
+    """
     def pantalla_inicio(self): 
 	     self.screen.blit(self.background, (0,0))
 	     letra = pygame.font.SysFont('arial', 70)
@@ -255,16 +263,15 @@ class Display(): #Representa el juego por pantalla
 	     self.screen.blit(text, (SIZE[X] // 2, SIZE[Y] // 2))
 	     text = letra.render('Pulsa una flecha para empezar', True, YELLOW)
 	     self.screen.blit(text, (SIZE[X] // 2, SIZE[Y] * 3/4))
-	     pygame.display.flip()
-
+	     pygame.display.flip
+    """
 
     def finDelJuego(self, i , pantalla): #Para mostrar la pantalla cuando hay game_over
     
        # Obtengo las dimensiones de la pantalla
         pantalla_width = pantalla.get_width()
         pantalla_height = pantalla.get_height()
-        score = self.game.get_score()
-
+        
     
         self.screen.fill(BLACK) # 'pintamos' la pantalla de negro
         letra = pygame.font.SysFont('times new roman', 50)
@@ -282,17 +289,17 @@ class Display(): #Representa el juego por pantalla
             pantalla.blit(winner_surface, winner_rect) 
             
         elif i == 3: #Empate
-            if score[0] > score[1]:
+            if self.score[0] > self.score[1]:
                 winner_surface = letra.render("GAME OVER: Black snake ha ganado!", True, YELLOW)
                 winner_rect = winner_surface.get_rect()
                 winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
                 pantalla.blit(winner_surface, winner_rect) 
-            elif score[0] < score[1]:
+            elif self.score[0] < self.score[1]:
                 winner_surface = letra.render("GAME OVER: Blue snake ha ganado!", True, YELLOW)
                 winner_rect = winner_surface.get_rect()
-                winner_rect.midtop = (pantalla_width//2, pantalla_height/2)
+                winner_rect.midtop = (pantalla_width//2, pantalla/_height/2)
                 pantalla.blit(winner_surface, winner_rect)
-            elif score[0] == score[1]:
+            elif self.score[0] == self.score[1]:
                 winner_surface = letra.render("GAME OVER: Ha habido EMPATE!", True, YELLOW)
                 winner_rect = winner_surface.get_rect()
                 winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
@@ -334,7 +341,6 @@ class Display(): #Representa el juego por pantalla
         pygame.quit()
 
 def main(ip_address):
-    
     try:
         with Client((ip_address, 6112), authkey=b'secret password') as conn:
             
@@ -348,7 +354,7 @@ def main(ip_address):
             print(f'c1 {gameinfo}')
             game.update(gameinfo)
             display = Display(game)
-            display.pantalla_inicio()
+            #display.pantalla_inicio()
             #Bucle principal
             while game.is_running(): 
                 
