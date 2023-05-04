@@ -106,6 +106,9 @@ class Game(): #Representamos el estado del juego
         
     def get_snake(self, color):
     	return self.snakes[color]
+    
+    def get_snake_color(self):
+        return self.snake.get_color()
 
     def get_apple(self):
     	return self.apple 
@@ -268,39 +271,40 @@ class Display(): #Representa el juego por pantalla
        # Obtengo las dimensiones de la pantalla
         pantalla_width = pantalla.get_width()
         pantalla_height = pantalla.get_height()
+        score = self.game.get_score()
         
-    
-        self.screen.fill(BLACK) # 'pintamos' la pantalla de negro
+        self.screen.blit(self.background, (0, 0)) #Ponemos un fondo 
         letra = pygame.font.SysFont('times new roman', 50)
     
         #Veamos los casos de game_over y en cada uno mostraremos una cosa por pantalla:
         if i == 1: #Gana BLACK snake
-            winner_surface = letra.render("GAME OVER: Black snake ha ganado!", True, YELLOW)
+            winner_surface = letra.render("GAME OVER: Black snake ha ganado!", True, BLACK)
             winner_rect = winner_surface.get_rect()
             winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
             pantalla.blit(winner_surface, winner_rect) 
         elif i == 2: #Gana BLUE snake
-            winner_surface = letra.render("GAME OVER: Blue snake ha ganado!", True, YELLOW)
+            winner_surface = letra.render("GAME OVER: Blue snake ha ganado!", True, BLUE)
             winner_rect = winner_surface.get_rect()
             winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
             pantalla.blit(winner_surface, winner_rect) 
-            
+        """ 
         elif i == 3: #Empate
-            if self.score[0] > self.score[1]:
+            if score[0] > score[1]:
                 winner_surface = letra.render("GAME OVER: Black snake ha ganado!", True, YELLOW)
                 winner_rect = winner_surface.get_rect()
                 winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
                 pantalla.blit(winner_surface, winner_rect) 
-            elif self.score[0] < self.score[1]:
+            elif score[0] < score[1]:
                 winner_surface = letra.render("GAME OVER: Blue snake ha ganado!", True, YELLOW)
                 winner_rect = winner_surface.get_rect()
                 winner_rect.midtop = (pantalla_width//2, pantalla/_height/2)
                 pantalla.blit(winner_surface, winner_rect)
-            elif self.score[0] == self.score[1]:
+            elif score[0] == score[1]:
                 winner_surface = letra.render("GAME OVER: Ha habido EMPATE!", True, YELLOW)
                 winner_rect = winner_surface.get_rect()
                 winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
                 pantalla.blit(winner_surface, winner_rect)  
+            """
        
         pygame.display.flip() #Actualiza la pantalla
         time.sleep(20)
@@ -320,6 +324,14 @@ class Display(): #Representa el juego por pantalla
         text2 = letra.render('Blue snake score:' + str(score[1]), True, BLUE) #Dibuja los puntos de blue snake en la pantallea
         score_rect2 = text2.get_rect()
         score_rect2.midtop = (SIZE[Y]-80,10)
+        if self.game.get_snake_color() == BLACK_SNAKE:
+            text = letra.render('Eres BLACK SNAKE', True, BLACK) #Dibuja los puntos de black snake en la pantalla
+            score_rect = text.get_rect()
+            score_rect.midtop = (90, 20)
+        elif self.game.get_snake_color() == BLUE_SNAKE:
+            text_ = letra.render('Eres BLUE SNAKE', True, BLUE) #Dibuja los puntos de black snake en la pantalla
+            score_rect_ = text_.get_rect()
+            score_rect_.midtop = (SIZE[Y]-80, 20)
         #score_surface = pygame.Surface((800, 60))
         #score_surface.fill((255, 255, 255))
         #score_surface.blit(text, (0, 0))
@@ -333,6 +345,7 @@ class Display(): #Representa el juego por pantalla
     def tick(self):
         self.clock.tick(FPS) #FPS = 60, ya definidio previamente
 
+        self.game_over = Value('i', 0) # Estado de game over inicial.
     @staticmethod
     def quit():
         pygame.quit()
@@ -367,9 +380,7 @@ def main(ip_address):
                 gameinfo = conn.recv()
                 game.update(gameinfo)
 
-                #Actualizo la pantalla y muestro las puntuaciones (refresh):
-                display.refresh(pantalla)
-                
+                 
                 # ¿ Ha terminado la partida ? 
                 if game.game_over == 1:
                     display.finDelJuego(1, pantalla)
@@ -377,10 +388,13 @@ def main(ip_address):
                 elif game.game_over == 2:
                     display.finDelJuego(2, pantalla)
                     game.stop() 
-                elif game.game_over == 3:
-                    display.finDelJuego(3, pantalla)
-                    game.stop()
-
+               # elif game.game_over == 3:
+                #    display.finDelJuego(3, pantalla)
+                 #   game.stop()
+                    
+                #Actualizo la pantalla y muestro las puntuaciones (refresh):
+                display.refresh(pantalla)
+               
                 display.tick()
                 pygame.display.update()
                 #Para ver si me sale bien la snake dibujada (como un cuadrado)
