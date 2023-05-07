@@ -56,7 +56,7 @@ class Snake():
         self.direction = direction
        
     def change_direction(self, direction): #Cambio de dirección
-        self.change = self.get_direction()
+        self.change = direction
         #No podemos cambiar dirección de arriba a abajo, primero hay que moverse hacia uno de los lados
         if self.change == "up" and self.direction != "down":
             self.direction = "up" 
@@ -238,22 +238,22 @@ def snake(color, conn, game):
         while game.is_running():
             
             command = ""
-            
+            direction = game.get_snake(color).get_direction()
             while command != "next":
                 command = conn.recv()
-                if command == "up" :
+                if command == "up" and direction != "down" :
                     game.change_dir(color,"up")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"up")
-                elif command == "down" :
+                elif command == "down" and direction != "up":
                     game.change_dir(color,"down")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"down")
-                elif command == "right":
+                elif command == "right" and direction != "left":
                     game.change_dir(color,"right")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"right")
-                elif command == "left":
+                elif command == "left" and direction != "right":
                     game.change_dir(color, "left")
                     print(f"{game.get_snake_direction(color)}")
                     game.move(color,"left")

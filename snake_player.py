@@ -311,11 +311,38 @@ class Display(): #Representa el juego por pantalla
         pantalla.blit(text2, score_rect2)
 
         pygame.display.flip() #Actualiza la pantalla completa
-
+        
+        
+        
     def tick(self):
         self.clock.tick(FPS) #FPS = 60, ya definidio previamente
 
         self.game_over = Value('i', 0) # Estado de game over inicial.
+        
+    def pantalla_inicio(self):
+        pantalla_width = self.screen.get_width()
+        pantalla_height = self.screen.get_height()
+        letra = pygame.font.SysFont('times new roman', 50)
+        sigue_en_intro = True
+        while sigue_en_intro:
+    	   
+          for evento in pygame.event.get():
+             if evento.type == pygame.QUIT:
+                quit()
+    	   
+          self.screen.fill(BLACK)
+          titulo = letra.render("BIENVENIDO A SNAKE GAME", True, RED)
+          instrucciones = letra.render('Presione ENTER para continuar', True, RED)
+          self.screen.blit(titulo, (pantalla_width//2 - titulo.get_width()//2, 20))
+          self.screen.blit(instrucciones, (pantalla_width//2 - instrucciones.get_width()//2, 400))
+          key = pygame.key.get_pressed()
+    	   
+          if key[pygame.K_RETURN]:
+              sigue_en_intro = False
+          
+          pygame.display.update()
+    	       
+
     @staticmethod
     def quit():
         pygame.quit()
@@ -328,13 +355,15 @@ def main(ip_address):
             color,gameinfo = conn.recv()
             
             pantalla = pygame.display.set_mode((SIZE[X], SIZE[Y]))
+            
             pygame.display.set_caption("SNAKE GAME")
             pygame.display.set_icon(pygame.image.load('icono.png'))
             print(f"I am playing {color}")
             print(f'c1 {gameinfo}')
             game.update(gameinfo)
             display = Display(game)
-            #display.pantalla_inicio()
+            
+            display.pantalla_inicio()
             #Bucle principal
             while game.is_running(): 
                 
