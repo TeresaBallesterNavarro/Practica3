@@ -153,7 +153,6 @@ class Game(): #Representamos el estado del juego
     
     def stop(self):
         self.running.value = 0
-
     
     def change_dir(self, color, key): #Snake cambia de dirección
         self.lock.acquire()
@@ -198,18 +197,15 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
    
     pos_BlackSnake = game.get_pos_snake(BLACK_SNAKE)
     pos_BlueSnake = game.get_pos_snake(BLUE_SNAKE)
-    # 1. Ambos jugadores se chocan = colisión
-   # if pos_BlackSnake == pos_BlueSnake:
-    #     game.set_game_over(3)
      
-    # 2. Alguno alcanza la puntuación máxima
+    # 1. Alguno alcanza la puntuación máxima
     if game.score[0] == 50:
         game.set_game_over(1) #Ha ganado black_snake
           
     elif game.score[1] == 50:
          game.set_game_over(2) #Ha ganado blue_snake
           
-    # 3. Ambos jugadores se salen de la pantalla -> Empate, los 2 han perdido
+    # 2. Ambos jugadores se salen de la pantalla -> Empate, los 2 han perdido
     elif ((pos_BlackSnake[0] < 0 or pos_BlackSnake[0] > SIZE[X]\
           or pos_BlackSnake[1] < 0 or pos_BlackSnake[1] > SIZE[Y]))\
         and ((pos_BlueSnake[0] < 0 or pos_BlueSnake[0] > SIZE[X]\
@@ -217,13 +213,13 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
             
             game.set_game_over(3)
          
-    # 4. La snake BLACK se sale de la pantalla -> Gana BLUE snake
+    # 3. La snake BLACK se sale de la pantalla -> Gana BLUE snake
     elif pos_BlackSnake[0] < 0 or pos_BlackSnake[0] > SIZE[X] or\
         pos_BlackSnake[1] < 0 or pos_BlackSnake[1] > SIZE[Y]:
             
         game.set_game_over(2)
              
-    # 5. La snake BLUE se sale de la pantalla -> Gana BLACK snake
+    # 4. La snake BLUE se sale de la pantalla -> Gana BLACK snake
     elif pos_BlueSnake[0] < 0 or pos_BlueSnake[0] > SIZE[X] or\
         pos_BlueSnake[1] < 0 or pos_BlueSnake[1] > SIZE[Y]:
             
