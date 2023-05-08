@@ -123,10 +123,10 @@ class Game(): #Representamos el estado del juego
         self.snakes[color].set_pos_head(head)
     
     def get_body(self, color):
-        return self.snakes[color].get_pos_body()
+        return self.snakes[color].get_body()
         
     def set_body(self, color, body):
-        self.snakes[color].set_pos_body(body)
+        self.snakes[color].set_body(body)
     
     def get_snake_direction(self, color):
         self.snakes[color].get_direction
