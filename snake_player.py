@@ -59,6 +59,7 @@ class Snake(): #[[x1,y1],[x2,y2],[x3,y3]...] = Snake
         self.head = [None, None] #Posición de la cabeza
         self.color = color # 0 = BLACK, 1 = BLUE
         self.direction = None #Indica hacia donde se dirige
+        #self.change = self.direction #Hacia donde se va a dirigir en el prox movimiento
     
     def get_color(self):
         return self.color
@@ -167,7 +168,12 @@ class SnakeSprite(pygame.sprite.Sprite): #Representa las snakes por pantalla
     	  self.image = pygame.image.load(SNAKES_IMAGES[0])
       elif self.snake.get_color() == BLUE_SNAKE :
           self.image = pygame.image.load(SNAKES_IMAGES[1])
+      #self.image = pygame.Surface([SNAKE_WIDTH, SNAKE_HEIGHT])
+      #self.image.fill(BLACK)
+      #self.image.set_colorkey(BLACK) #drawing the snake
 
+      #color = SNAKES_COLORS[self.snake.get_color()]
+     # pygame.draw.rect(self.image, color, [0, 0, SNAKE_WIDTH, SNAKE_HEIGHT]) #Dibuja sanke con su color y su tamanyo predefinidos
       self.rect = self.image.get_rect()
       self.update()
 
@@ -184,7 +190,7 @@ class AppleSprite(pygame.sprite.Sprite): #Representa la manzana por pantalla
         super().__init__()
         self.apple= apple
         self.image = pygame.image.load('apple.png')
-        self.image.set_colorkey(WHITE, RLEACCEL)
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.update()
 
@@ -209,7 +215,7 @@ class Display(): #Representa el juego por pantalla
         
         self.clock =  pygame.time.Clock()  #FPS
         self.background = pygame.image.load('fondo2.png') #Carga la imagen de fondo
-        self.incio = pygame.image.load('inicio_snake.png') #Carga la imagen de fondo
+        self.inicio = pygame.image.load('inicio_snake.png') #Carga la imagen de fondo
 
         pygame.init() #Inicializamos todos los módulos pygame
 
@@ -244,6 +250,7 @@ class Display(): #Representa el juego por pantalla
        # Obtengo las dimensiones de la pantalla
         pantalla_width = pantalla.get_width()
         pantalla_height = pantalla.get_height()
+        #score = self.game.get_score()
         
         self.screen.blit(self.background, (0, 0)) #Ponemos un fondo 
         letra = pygame.font.SysFont('times new roman', 50)
@@ -259,7 +266,7 @@ class Display(): #Representa el juego por pantalla
             winner_rect = winner_text.get_rect()
             winner_rect.midtop = (pantalla_width//2, pantalla_height//2)
             pantalla.blit(winner_text, winner_rect) 
-
+     
         pygame.display.flip() #Actualiza la pantalla
         time.sleep(20)
         pygame.quit() #Como ha habido 'game over', se cierra el programa
@@ -287,6 +294,7 @@ class Display(): #Representa el juego por pantalla
         pygame.display.flip() #Actualiza la pantalla completa
         
         
+        
     def tick(self):
         self.clock.tick(FPS) #FPS = 60, ya definidio previamente
 
@@ -303,7 +311,7 @@ class Display(): #Representa el juego por pantalla
              if evento.type == pygame.QUIT:
                 quit()
     	   
-          self.screen.blit(self.inicio, (0, 0))
+          self.screen.blit(self.inicio, (0,0))
           titulo = letra.render("BIENVENIDO A SNAKE GAME", True, RED)
           instrucciones = letra.render('Presione ENTER para continuar', True, RED)
           self.screen.blit(titulo, (pantalla_width//2 - titulo.get_width()//2, 20))
@@ -337,7 +345,8 @@ def main(ip_address):
             display = Display(game)
             
             display.pantalla_inicio()
-            while game.is_running():    #Bucle principal
+            #Bucle principal
+            while game.is_running(): 
                 
                 #direction = game.get_snake_direction(color)
                 pantalla.fill(BLACK)
@@ -359,7 +368,11 @@ def main(ip_address):
                 elif game.game_over == 2:
                     display.finDelJuego(2, pantalla)
                     game.stop() 
-    
+               # elif game.game_over == 3:        """ 
+            
+                #    display.finDelJuego(3, pantalla)
+                 #   game.stop()
+                    
                 #Actualizo la pantalla y muestro las puntuaciones (refresh):
                 display.refresh(pantalla)
                
