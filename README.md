@@ -22,3 +22,4 @@ En ambos hacemos uso de la librería pygame y multiporcessing de Python. Además
 ¿ CÓMO EMPEZAR A JUGAR ? :
 Hay dos scripts : 'snake_sala.py' y 'snake_player.py', ambos necesarios para ejecutar el juego de manera distribuida. Para que dos jugadores puedan jugar, es necesario que se abra desde uno de los ordenadores el scrip de snake_sala y, a continuación, que cada jugador abra desde su ordenador snake_play pero siempre con la misma dirección ip.
 
+Nota: Las imágenes .png son necesarias para representar correctamente el juego por pantalla.
