@@ -59,7 +59,6 @@ class Snake(): #[[x1,y1],[x2,y2],[x3,y3]...] = Snake
         self.head = [None, None] #Posición de la cabeza
         self.color = color # 0 = BLACK, 1 = BLUE
         self.direction = None #Indica hacia donde se dirige
-        #self.change = self.direction #Hacia donde se va a dirigir en el prox movimiento
     
     def get_color(self):
         return self.color
@@ -168,12 +167,7 @@ class SnakeSprite(pygame.sprite.Sprite): #Representa las snakes por pantalla
     	  self.image = pygame.image.load(SNAKES_IMAGES[0])
       elif self.snake.get_color() == BLUE_SNAKE :
           self.image = pygame.image.load(SNAKES_IMAGES[1])
-      #self.image = pygame.Surface([SNAKE_WIDTH, SNAKE_HEIGHT])
-      #self.image.fill(BLACK)
-      #self.image.set_colorkey(BLACK) #drawing the snake
 
-      #color = SNAKES_COLORS[self.snake.get_color()]
-     # pygame.draw.rect(self.image, color, [0, 0, SNAKE_WIDTH, SNAKE_HEIGHT]) #Dibuja sanke con su color y su tamanyo predefinidos
       self.rect = self.image.get_rect()
       self.update()
 
@@ -250,7 +244,6 @@ class Display(): #Representa el juego por pantalla
        # Obtengo las dimensiones de la pantalla
         pantalla_width = pantalla.get_width()
         pantalla_height = pantalla.get_height()
-        #score = self.game.get_score()
         
         self.screen.blit(self.background, (0, 0)) #Ponemos un fondo 
         letra = pygame.font.SysFont('times new roman', 50)
@@ -281,7 +274,6 @@ class Display(): #Representa el juego por pantalla
         text1 = letra.render('Black snake score:' + str(score[0]), True, BLACK) #Dibuja los puntos de black snake en la pantalla
         score_rect1 = text1.get_rect()
         score_rect1.midtop = (90,10)
-        #self.screen.blit(text1, (50, 10))
         text2 = letra.render('Blue snake score:' + str(score[1]), True, BLUE) #Dibuja los puntos de blue snake en la pantallea
         score_rect2 = text2.get_rect()
         score_rect2.midtop = (SIZE[Y]-80,10)
@@ -292,7 +284,6 @@ class Display(): #Representa el juego por pantalla
         pantalla.blit(text2, score_rect2)
 
         pygame.display.flip() #Actualiza la pantalla completa
-        
         
         
     def tick(self):
@@ -348,7 +339,6 @@ def main(ip_address):
             #Bucle principal
             while game.is_running(): 
                 
-                #direction = game.get_snake_direction(color)
                 pantalla.fill(BLACK)
                 events = display.analyze_events(color)
                 for ev in events:
@@ -359,7 +349,6 @@ def main(ip_address):
                 conn.send("next")
                 gameinfo = conn.recv()
                 game.update(gameinfo)
-
                  
                 # ¿ Ha terminado la partida ? 
                 if game.game_over == 1:
@@ -368,10 +357,7 @@ def main(ip_address):
                 elif game.game_over == 2:
                     display.finDelJuego(2, pantalla)
                     game.stop() 
-               # elif game.game_over == 3:        """ 
-            
-                #    display.finDelJuego(3, pantalla)
-                 #   game.stop()
+    
                     
                 #Actualizo la pantalla y muestro las puntuaciones (refresh):
                 display.refresh(pantalla)

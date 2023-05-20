@@ -198,15 +198,12 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
    
     pos_BlackSnake = game.get_pos_snake(BLACK_SNAKE)
     pos_BlueSnake = game.get_pos_snake(BLUE_SNAKE)
-    # 1. Ambos jugadores se chocan = colisión
-   # if pos_BlackSnake == pos_BlueSnake:
-    #     game.set_game_over(3)
      
-    # 2. Alguno alcanza la puntuación máxima
-    if game.score[0] == 50:
+    # 1. Alguno alcanza la puntuación máxima
+    if game.score[0] == 20:
         game.set_game_over(1) #Ha ganado black_snake
           
-    elif game.score[1] == 50:
+    elif game.score[1] == 20:
          game.set_game_over(2) #Ha ganado blue_snake
           
     # 3. Ambos jugadores se salen de la pantalla -> Empate, los 2 han perdido
@@ -286,7 +283,6 @@ def main(ip_address):
             snakes = [None, None]
             game = Game(manager)
             while True:
-                #pantalla_inicio()
                 print(f"accepting connection {n_snake}")
                 conn = listener.accept()
                 snakes[n_snake] = Process(target=snake,
