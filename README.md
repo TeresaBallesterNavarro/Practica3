@@ -9,8 +9,8 @@ El juego clásico de 'Snake' consiste en que un jugador controla la serpiente co
 El juego de 'Snake' multijugador que proponemos consiste en que aquel jugador que consiga comer antes 20 manzanas, gana. Siempre y cuando se cumplan las dos condiciones anteriores del juego clásico de 'Snake'. En el caso de que uno de los jugadores toque la pared de la pantalla, este ha perdido. Si ambos jugadores se salen de la pantalla, han perdido los dos. Sin embargo, la segunda condición del juego simplemente restringe los movimientos de los jugadores, pero no los descalifica.
 
 SCRIPTS :
-- 'Snake_sala.py' -->  El script de la sala es responsable de coordinar y administrar la lógica del juego en general.
-- 'Snake_player.py' -->  El script del jugador se encarga de manejar las acciones y eventos específicos de un jugador individual. Definimos las siguientes clases:
+- 'snake_sala.py' -->  El script de la sala es responsable de coordinar y administrar la lógica del juego en general.
+- 'snake_player.py' -->  El script del jugador se encarga de manejar las acciones y eventos específicos de un jugador individual. Definimos las siguientes clases:
     - Snake : representa la serpiente en el juego.
     - Apple : representa la manzana en el juego.
     - Game : representa el estado del juego.
@@ -28,5 +28,5 @@ Nota: Las imágenes .png son necesarias para representar correctamente el juego 
 Una vez finalizamos el juego de la snake, intentamos hacer otra versión de la snake en la que el cuerpo fuese aumentando a medida que la snake comiese manzanas.  
 El problema de esta nueva versión es que no conseguimos que nos funcione correctamente y no conseguimos ver el/los error/es que estamos cometiendo.
 Los archivos asociados a esta nueva versión son :
-         - snake_sala2.py
-         - snake_player2.py
+         - 'snake_sala2.py'
+         - 'snake_player2.py'
