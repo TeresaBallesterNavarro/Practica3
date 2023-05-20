@@ -1,3 +1,11 @@
+"""
+PARTICIPANTES:
+Apellidos1: Ballester Navarro
+Nombre1: Teresa
+
+Apellidos2: González Morala
+Nombre2: David
+"""
 from multiprocessing.connection import Listener
 from multiprocessing import Process, Manager, Value, Lock
 import traceback
