@@ -25,8 +25,8 @@ Hay dos scripts : 'snake_sala.py' y 'snake_player.py', ambos necesarios para eje
 Nota: Las imágenes .png son necesarias para representar correctamente el juego por pantalla.
 
 ### AMPLIACIÓN ###
--Una vez finalizamos el juego de la snake, intentamos hacer otra versión de la snake en la que el cuerpo fuese aumentando a medida que la snake comiese manzanas.  
--El problema de esta nueva versión es que no conseguimos que nos funcione correctamente y no conseguimos ver el/los error/es que estamos cometiendo.
--Los archivos asociados a esta nueva versión son:
-      - 'snake_sala2.py'
-      - 'snake_player2.py'
+Una vez finalizamos el juego de la snake, intentamos hacer otra versión de la snake en la que el cuerpo fuese aumentando a medida que la snake comiese manzanas.  
+El problema de esta nueva versión es que no conseguimos que nos funcione correctamente y no conseguimos ver el/los error/es que estamos cometiendo.
+Los archivos asociados a esta nueva versión son:
+       'snake_sala2.py',
+       'snake_player2.py'
