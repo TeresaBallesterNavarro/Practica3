@@ -23,3 +23,10 @@ En ambos hacemos uso de la librería pygame y multiporcessing de Python. Además
 Hay dos scripts : 'snake_sala.py' y 'snake_player.py', ambos necesarios para ejecutar el juego de manera distribuida. Para que dos jugadores puedan jugar, es necesario que se abra desde uno de los ordenadores el scrip de snake_sala y, a continuación, que cada jugador abra desde su ordenador snake_play pero siempre con la misma dirección ip.
 
 Nota: Las imágenes .png son necesarias para representar correctamente el juego por pantalla.
+
+### AMPLIACIÓN ###
+Una vez finalizamos el juego de la snake, intentamos hacer otra versión de la snake en la que el cuerpo fuese aumentando a medida que la snake comiese manzanas.  
+El problema de esta nueva versión es que no conseguimos que nos funcione correctamente y no conseguimos ver el/los error/es que estamos cometiendo.
+Los archivos asociados a esta nueva versión son :
+         - snake_sala2.py
+         - snake_player2.py
