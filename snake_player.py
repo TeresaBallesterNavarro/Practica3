@@ -1,26 +1,13 @@
 """
+PARTICIPANTES:
+Apellidos1: Ballester Navarro
+Nombre1: Teresa
+
+Apellidos2: González Morala
+Nombre2: David
+
 JUEGO SNAKE: Hay 2 serpientes que luchan por comer una manzana, aquella serpiente
             que coma más manzanas, gana. 
-    CLASES
-    -------
-    - Manzana
-        - Posición (aleatoria dentro del tablero (no bordes) y no puede coincidir con la pos de snake)
-        - Generar posiciones random
-    - Snake (player)
-        - Posición
-        - Tamaño
-        - Método para agrandar su tamaño
-        - Método para su movimiento (arriba, abajo, izq, dcha con CONDICIONES)
-    - Game
-        - Manzana
-        - Snakes
-        - Contador de puntos
-        - Límite de tiempo para FIN del juego
-        - Métodos para mover a Snake
-        - Método para agrandar el tamaño de Snake
-        - Método para generar la posición aleatoria de Manzana
-        
-    - Display --> para representar por pantalla el juego
     
 """
 from multiprocessing.connection import Client
