@@ -70,7 +70,7 @@ class Snake(): #[[x1,y1],[x2,y2],[x3,y3]...] = Snake
     def set_pos_head(self,head): #Cambia la posición de snake
         self.head = head
         
-    def get_body(self):
+    def get_pos_body(self):
         return self.body
      
     def set_body(self,body): #Cambia la posición de snake
@@ -123,7 +123,7 @@ class Game(): #Representamos el estado del juego
         self.snakes[color].set_pos_head(head)
     
     def get_body(self, color):
-        return self.snakes[color].get_body()
+        return self.snakes[color].get_pos_body()
         
     def set_body(self, color, body):
         self.snakes[color].set_body(body)
@@ -179,13 +179,13 @@ class SnakeSprite(pygame.sprite.Sprite): #Representa las snakes por pantalla
         self.snake = snake
         self.image = pygame.Surface([SNAKE_WIDTH, SNAKE_HEIGHT])
         self.image.fill(BLACK)
-        self.image.set_colorkey(BLACK) 
+        self.image.set_colorkey(WHITE) 
         #Dibujamos las sanke con su color y su tamanyo predefinidos
         if self.snake.get_color() == BLACK_SNAKE :
-            for pos in snake.get_body():
+            for pos in self.snake.get_pos_body():
                 pygame.draw.rect(self.image, BLACK, [pos[0], pos[1], SNAKE_WIDTH, SNAKE_HEIGHT]) 
         elif self.snake.get_color() == BLUE_SNAKE :    
-            for pos in snake.get_body():
+            for pos in self.snake.get_pos_body():
                 pygame.draw.rect(self.image, BLUE, [pos[0], pos[1], SNAKE_WIDTH, SNAKE_HEIGHT]) 
                 
         self.rect = self.image.get_rect()
@@ -230,7 +230,7 @@ class Display(): #Representa el juego por pantalla
         
         self.clock =  pygame.time.Clock()  #FPS
         self.background = pygame.image.load('fondo2.png') #Carga la imagen de fondo
-        self.incio = pygame.image.load('inicio_snake.png') #Carga la imagen de fondo
+        self.inicio = pygame.image.load('inicio_snake.png') #Carga la imagen de fondo
 
         pygame.init() #Inicializamos todos los módulos pygame
 
@@ -360,7 +360,6 @@ def main(ip_address):
             display.pantalla_inicio()
             while game.is_running():    #Bucle principal
                 
-                #direction = game.get_snake_direction(color)
                 pantalla.fill(BLACK)
                 events = display.analyze_events(color)
                 for ev in events:

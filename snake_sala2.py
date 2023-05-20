@@ -42,6 +42,8 @@ class Snake():
             
         
         self.change = self.direction
+        
+    
             
     def get_color(self):
         return self.color
@@ -87,22 +89,25 @@ class Snake():
         	self.head[X] += 50
     
     def moveLeft(self):
-           self.head[X] -= 50
+                self.head[X] -= 50
      
     def __str__(self):
         return f"S<{SNAKES_COLORS[self.color], self.head}>"
-        
+ 
+
+      
 
 class Apple(): #Representa la manzana en el juego
 
     def __init__(self): #La manzana tiene color y posición
+     
         self.pos = [None, None]
         x3 = random.randint(1, 10)*50 
         y3 = random.randint(1, 10)*50
         self.pos = [x3, y3]
         snake1 = Snake(BLACK_SNAKE)
         snake2 = Snake(BLUE_SNAKE)
-        while snake1.get_pos_head() == self.pos or snake2.get_pos_head() == self.pos : #mientras se de el caso en que la manzana aparezca en la misma posición que una de las 2 snakes
+        while (self.pos in snake1.get_pos_body()) or (self.pos in snake2.get_pos_body()) : 	 #mientras se de el caso en que la manzana aparezca en la misma posición que una de las 2 snakes
               x3, y3 = random.randint(1, 16)*50, random.randint(1, 13)*50 #actualizamos pos de la manzana
     
     def get_pos(self):
@@ -139,7 +144,7 @@ class Game(): #Representamos el estado del juego
     def set_body(self, color, body):
         self.lock.acquire()
         p = self.snakes[color]
-        p.set_body(body)
+        p.set_pos_body(body)
         self.snakes[color] = p
         self.lock.release()
         
@@ -202,8 +207,8 @@ class Game(): #Representamos el estado del juego
         info = {
             'pos_black_snake': self.snakes[0].get_pos_head(),
             'pos_blue_snake': self.snakes[1].get_pos_head(),
-            'body_black_snake': self.snakes[0].get_body(),
-            'body_blue_snake': self.snakes[1].get_body(),            
+            'body_black_snake': self.snakes[0].get_pos_body(),
+            'body_blue_snake': self.snakes[1].get_pos_body(),            
             'pos_apple': self.apple[0].get_pos(),
             'score': list(self.score),
             'game_over': self.game_over.value,
@@ -218,12 +223,15 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
    
     pos_BlackSnake = game.get_pos_snake(BLACK_SNAKE)
     pos_BlueSnake = game.get_pos_snake(BLUE_SNAKE)
+    
+    body_BlackSnake = game.get_body(BLACK_SNAKE)
+    body_BlueSnake = game.get_body(BLUE_SNAKE)
      
     # 1. Alguno alcanza la puntuación máxima
-    if game.score[0] == 50:
+    if game.score[0] == 20:
         game.set_game_over(1) #Ha ganado black_snake
           
-    elif game.score[1] == 50:
+    elif game.score[1] == 20:
          game.set_game_over(2) #Ha ganado blue_snake
           
     # 2. Ambos jugadores se salen de la pantalla -> Empate, los 2 han perdido
@@ -245,7 +253,37 @@ def pararPartida(game):  #### Condiciones para parar la partida ####
         pos_BlueSnake[1] < 0 or pos_BlueSnake[1] > SIZE[Y]:
             
         game.set_game_over(1)
-     
+      
+    # 5. Alguno se choca en el cuerpo de la snake black, posiblemente los dos a la vez    
+    if pos_BlackSnake in body_BlackSnake[1:] and pos_BlueSnake in body_BlackSnake[1:] :
+                game.set_game_over(3)
+    elif pos_BlackSnake in body_BlackSnake[1:] :
+                game.set_game_over(2)
+    elif pos_BlueSnake in body_BlackSnake[1:] :
+                game.set_game_over(1)
+            
+    # 6. Alguno se choca en el cuerpo de la snake azul, posiblemente los dos a la vez
+    if pos_BlackSnake in body_BlueSnake[1:] and pos_BlueSnake in body_BlueSnake[1:] :
+                game.set_game_over(3)
+    elif pos_BlackSnake in body_BlueSnake[1:] :
+                game.set_game_over(2)
+    elif pos_BlueSnake in body_BlueSnake[1:] :
+                game.set_game_over(1)
+   
+
+def add_body(direction,game,color): # En esta función distinguimos la dirección de la snake para ampliar el cuerpo de la snake en una posición u otra
+        body = game.snakes[color].get_pos_body()
+        tail = body[-1] # Obtenemos la última posición del cuerpo
+        if direction == "up": # En este caso añadimos un elemento al cuerpo debajo
+               body.append([tail[0],tail[1]+1])
+        elif direction == "down": # En este caso añadimos un elemento al cuerpo arriba
+               body.append([tail[0],tail[1]-1])
+        elif direction == "left": # En este caso añadimos un elemento al cuerpo derecha
+               body.append([tail[0]+1,tail[1]])	        
+        elif direction == "right": # En este caso añadimos un elemento al cuerpo izquierda
+               body.append([tail[0]-1,tail[1]])
+        game.set_body(color, body) 
+
                  
 def snake(color, conn, game): 
     
@@ -277,18 +315,16 @@ def snake(color, conn, game):
                 elif command == "quit":
                     game.stop()
                  
-            
-        
+               
+
                 # Cuando la serpiente se come la manzana, aumentamos su tamanyo
                 if game.get_pos_snake(color) == game.get_apple_pos(): 
-                    # Cambiamos el body de la serpiente:
-                    longitud = game.get_body(color)
-                    longitud.insert(0, game.get_pos_snake(color))
-                    game.set_body(color, longitud) 
-                    
+   
+                    add_body(direction,game,color)  # Cambiamos el body de la serpiente               
                     game.set_score(color) # Se suman los puntos
                     print(game.score)
                     game.apple[0] = Apple() # Se crea una nueva manzana aleatoria
+                 
               
                 
                 pararPartida(game) 
