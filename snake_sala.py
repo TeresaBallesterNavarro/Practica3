@@ -25,6 +25,11 @@ BLUE_SNAKE = 1
 SNAKE_WIDTH = 10
 SNAKE_HEIGHT = 10
 SNAKES_COLORS = [BLACK, BLUE]
+LEFT = "left"
+RIGHT = "right"
+UP = "up"
+DOWN = "down"
+
 
 APPLE_COLOR = RED
 APPLE_SIZE = 10
@@ -40,11 +45,11 @@ class Snake():
 
         if self.color == BLACK_SNAKE :
             self.head = [100,300]
-            self.direction = "right"   #Defino una dirección inicial para black_snake
+            self.direction = RIGHT   #Defino una dirección inicial para black_snake
                 
         else : #BLUE_SNAKE = 1
             self.head = [SIZE[X] -100, SIZE[Y] - 300]
-            self.direction = "left"    #Defino una dirección inicial para blue_snake
+            self.direction = LEFT       #Defino una dirección inicial para blue_snake
         
         self.change = self.direction
             
@@ -66,15 +71,15 @@ class Snake():
     def change_direction(self, direction): #Cambio de dirección
         self.change = direction
         #No podemos cambiar dirección de arriba a abajo, primero hay que moverse hacia uno de los lados
-        if self.change == "up" and self.direction != "down":
-            self.direction = "up" 
-        elif self.change == "down" and self.direction != "up":
-            self.direction = "down"
+        if self.change == UP and self.direction != DOWN:
+            self.direction = UP 
+        elif self.change == DOWN and self.direction != UP:
+            self.direction = DOWN
        #Igual que antes, no podemos cambiar el sentido directamente dentro de la misma dirección
-        if self.change == "left" and self.direction != "right":
-            self.direction = "left" 
-        elif self.change == "right" and self.direction != "left":
-            self.direction = "right"
+        if self.change == LEFT and self.direction != RIGHT:
+            self.direction = LEFT 
+        elif self.change == RIGHT and self.direction !=LEFT:
+            self.direction = RIGHT
     
     def moveUp(self):
         	self.head[Y] -= 50
@@ -175,13 +180,13 @@ class Game(): #Representamos el estado del juego
         self.lock.acquire()
         p = self.snakes[color]
         
-        if key == "up":
+        if key == UP:
            p.moveUp()
-        if key == "down":
+        if key == DOWN:
            p.moveDown()
-        if key == "left":
+        if key == LEFT:
            p.moveLeft()
-        if key == "right":
+        if key == RIGHT:
            p.moveRight()
             
         self.snakes[color] = p
@@ -246,22 +251,22 @@ def snake(color, conn, game):
             direction = game.get_snake(color).get_direction()
             while command != "next":
                 command = conn.recv()
-                if command == "up" and direction != "down" :
-                    game.change_dir(color,"up")
+                if command == UP and direction != DOWN :
+                    game.change_dir(color,UP)
                     print(f"{game.get_snake_direction(color)}")
-                    game.move(color,"up")
-                elif command == "down" and direction != "up":
-                    game.change_dir(color,"down")
+                    game.move(color,UP)
+                elif command == DOWN and direction != UP:
+                    game.change_dir(color,DOWN)
                     print(f"{game.get_snake_direction(color)}")
-                    game.move(color,"down")
-                elif command == "right" and direction != "left":
-                    game.change_dir(color,"right")
+                    game.move(color,DOWN)
+                elif command == RIGHT and direction != LEFT:
+                    game.change_dir(color,RIGHT)
                     print(f"{game.get_snake_direction(color)}")
-                    game.move(color,"right")
-                elif command == "left" and direction != "right":
-                    game.change_dir(color, "left")
+                    game.move(color,RIGHT)
+                elif command == LEFT and direction != RIGHT:
+                    game.change_dir(color, LEFT)
                     print(f"{game.get_snake_direction(color)}")
-                    game.move(color,"left")
+                    game.move(color,LEFT)
                 elif command == "quit":
                     game.stop()
                   
