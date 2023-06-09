@@ -270,7 +270,7 @@ def snake(color, conn, game):
                 elif command == "quit":
                     game.stop()
                 else:
-                    print("Si sale este mensaje es que se ha metido en el else")
+                    print('Si te sale este mensaje es que algo ha ido mal')
                   
                 # Aquí vemos cuando la serpiente se come la manzana
                 if game.get_pos_snake(color) == game.get_apple_pos(): 
