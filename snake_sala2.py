@@ -319,6 +319,8 @@ def snake(color, conn, game):
                     game.move(color,"left")
                 elif command == "quit":
                     game.stop()
+                else:
+                    print('Si te sale este mensaje es que algo ha ido mal')
                  
                
 
